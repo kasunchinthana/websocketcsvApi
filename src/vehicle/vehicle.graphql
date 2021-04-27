@@ -1,0 +1,39 @@
+type Vehicle {
+    id:ID!
+    firstName:String
+    lastName:String
+    email:String
+    carMake:String
+    carModel:String 
+    vinNumber:String
+    manufacturedDate:String
+    ageOfVehicle:String
+
+}
+type PageInfo{
+  hasNextPage: Boolean
+  endCursor: String
+}
+type VehicleConnection { # add this below the Query type as an additional type.
+  pageInfo: PageInfo
+  totalCount: Int
+  nodes: [Vehicle]
+}
+
+
+type Query{
+    vehicles(page: Int, newest: Boolean):[Vehicle!]
+    vehicle(id: ID!): Vehicle!
+    getVehicleByAge(vehicleAge:String): [Vehicle]
+    vehicleById(id:ID): Vehicle
+    # allVehicles: [Vehicle]
+    #allVehicles(carModel:String):[Vehicle]
+    allVehicles( carModel:String, first: Int, after: String): VehicleConnection
+
+}
+
+type Mutation {
+  createVehicle(firstName: String!, lastName: String!): Vehicle!
+  updateVehicleById(id: ID!, firstName: String, lastName: String, carModel: String): Vehicle!
+  deleteVehicle(id: ID!): Vehicle
+}
